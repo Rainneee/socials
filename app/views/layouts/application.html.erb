@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>Socials</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= favicon_link_tag asset_path("twitterol2.png")%>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag 'flash', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'dropzone', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="h-full w-full">
+    <%= render partial: 'shared/flash' %>
+    <% if !user_signed_in? %>
+      <main class="h-full w-full">
+        <%= yield %>
+      </main>
+    <% else %>
+      <main class="h-full w-full" data-controller="modalpop">
+        <div class="modal-content hidden" data-modalpop-target="modalContent" data-action="click->modalpop#reload" data-modal-type="posting">
+          <div class="fixed top-0 left-0 z-30 flex h-full min-h-screen w-full items-center justify-center bg-black bg-opacity-40 px-4 py-5">
+            <div class="w-full sm:w-[600px] rounded-[10px] max-h-[83vh] overflow-auto bg-white flex flex-col z-50" data-action="click->modalpop#stopPropagation">
+              <div class="w-full bg-white rounded-lg flex flex-col">
+                <div class="w-full pt-5 text-left">
+                  <div class="modal" id="posting">
+                    <button class="mx-5 mb-5 w-[22px] flex justify-center items-center text-black" type="button" data-action="click->modalpop#reload" data-modal-type="posting">
+                      <%= render_svg "icons/close", styles: "fill-current", title: "close" %>
+                    </button>
+                    <%= render partial: 'tweets/form', locals: {tweet: Tweet.new, placeholder: "What is Happening?!", button_name: "Post", form_submit_path: tweets_path, is_turbo: false} %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-content hidden" data-modalpop-target="modalContent" data-action="click->modalpop#reload" data-modal-type="profile-update">
+          <div class="fixed top-0 left-0 z-30 flex h-full min-h-screen w-full items-center justify-center bg-black bg-opacity-40 px-4 py-5">
+            <div class="w-full sm:w-[600px] rounded-[10px] max-h-[83vh] overflow-auto bg-white flex flex-col z-50" data-action="click->modalpop#stopPropagation">
+              <div class="w-full bg-white rounded-lg flex flex-col">
+                <div class="w-full pt-5 text-left">
+                  <div class="modal" id="profile-update">
+                    <button class="mx-5 mb-5 w-[22px] flex justify-center items-center text-black" type="button" data-action="click->modalpop#reload" data-modal-type="profile-update">
+                      <%= render_svg "icons/close", styles: "fill-current", title: "close" %>
+                    </button>
+                    <%= render partial: 'profile/form', locals: {is_turbo: false} %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-9 bg-white">
+          <div class="sticky top-0 hidden md:block md:col-span-1 lg:block lg:col-span-2 h-screen">
+            <%= render partial: "shared/navbar" %>
+          </div>
+          <div class="col-span-3 md:col-span-4 lg:col-span-4">
+            <%= yield %>
+          </div>
+          <div class="sticky top-0 hidden md:block md:col-span-1 lg:block lg:col-span-3 h-screen">
+            <%= render partial: "shared/search_navbar" %>
+          </div>
+        </div>
+      </main>
+    <% end %>
+  </body>
+</html>

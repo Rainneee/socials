@@ -1,0 +1,76 @@
+<%= turbo_frame_tag dom_id(tweet) do %>
+  <div class="p-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 focus:bg-gray-100 shadow-sm" data-controller="twittershow" data-tweet-path="<%= tweet_path(tweet) %>">
+    <div class="flex flex-row">
+      <% if tweet&.user&.avatar&.attached? %>
+        <div class="max-h-[50px] max-w-[50px] min-w-[40px] min-h-[40px] w-full rounded-full mr-3 flex items-center justify-center">
+          <%= image_tag tweet.user&.avatar, class: "h-full w-full rounded-full object-cover object-center" %>
+        </div>
+      <% else %>
+        <% unique_letters = [tweet&.user&.first_name, tweet&.user&.last_name] %>
+        <% random_bg_color = deterministic_choice(unique_letters) %>
+        <div class="max-h-[50px] max-w-[50px] min-w-[40px] min-h-[40px] w-full rounded-full mr-2 flex items-center justify-center" style="background-color: <%= random_bg_color %>;">
+          <p class="font-medium text-[13px] text-white">
+          <%= tweet&.user&.first_name&.to_s[0]&.capitalize if tweet&.user&.first_name.present? %><%= tweet&.user&.last_name&.to_s[0]&.capitalize if tweet&.user&.last_name.present?%>
+          </p>
+        </div>
+      <% end %>
+      <div class="flex-1">
+        <p><span class="mr-2 font-bold"><%= tweet&.user&.name %></span><span class="text-gray-500"><%="@#{tweet&.user&.user_name} · #{short_time_ago(tweet.created_at)}" if tweet&.user&.user_name&.present? %></span></p>
+        <p class="break-all mb-4"><%= tweet&.body %></p>
+        <div id="show_stats">
+          <div class="flex flex-row justify-between">
+            <%= link_to tweet_path(tweet), data: { turbo: false, ignore_click: true }, class: "break-all flex items-center justify-center m-0 group-hover:text-[#1d9bf0]" do %>
+              <span class="mr-[10px] w-[19px] h-[19px] flex justify-center items-center hover:text-[#1d9bf0]">
+                <%= render_svg "icons/comment", size:"100%", styles: "fill-current object-cover object-contain", title: "comment" %>
+              </span><span><%= tweet.replies_counter %></span>
+            <% end %>
+            <% if !current_user.retweeted_tweets.include?(tweet) %>
+              <%= link_to tweet_retweets_path(tweet), data: {turbo_method: :post, ignore_click: true }, class:"break-all flex items-center justify-center m-0 group-hover:text-[#5dc172]" do %>
+                <span class="mr-[10px] w-[19px] h-[19px] flex justify-center items-center hover:text-[#5dc172]">
+                  <%= render_svg "icons/retweet", size:"100%", styles: "fill-current object-cover object-contain", title: "retweet" %>
+                </span><span><%= tweet.retweets_counter %></span>
+              <% end %>
+            <% else %>
+              <%= link_to tweet_retweet_path(tweet, tweet.retweets.find_by(user: current_user)), data: { turbo_method: :delete, ignore_click: true }, class:"break-all flex items-center justify-center m-0 group-hover:text-[#5dc172]" do %>
+                <span class="mr-[10px] w-[19px] h-[19px] flex justify-center items-center text-[#5dc172] hover:text-[#5dc172]">
+                  <%= render_svg "icons/retweet", size:"100%", styles: "fill-current object-cover object-contain", title: "retweet" %>
+                </span><span class="text-[#5dc172]"><%= tweet.retweets_counter %></span>
+              <% end %>
+            <% end %>
+            <% if !current_user.liked_tweets.include?(tweet)%>
+              <%= link_to tweet_likes_path(tweet), data: { turbo_method: :post, ignore_click: true }, class: "break-all flex items-center justify-center m-0 group-hover:text-[#5dc172]" do %>
+                <span class="mr-[10px] w-[19px] h-[19px] flex justify-center items-center hover:text-[#d65959] <%= current_user.liked_tweets.include?(tweet) ? 'text-[#d65959]' : '' %>">
+                  <%= render_svg "icons/like", size:"100%", styles: "fill-current object-cover object-contain", title: "like" %>
+                </span><span><%= tweet.likes_counter %></span>
+              <% end %>
+            <% else %>
+              <%= link_to tweet_like_path(tweet, tweet.likes.find_by(user: current_user)), data: { turbo_method: :delete, ignore_click: true }, class: "break-all flex items-center justify-center m-0 group-hover:text-[#5dc172]" do %>
+                <span class="mr-[10px] w-[19px] h-[19px] flex justify-center items-center hover:text-[#d65959] <%= current_user.liked_tweets.include?(tweet) ? 'text-[#d65959]' : '' %>">
+                  <%= render_svg "icons/like-filled", size:"100%", styles: "fill-current object-cover object-contain", title: "like" %>
+                </span><span class="<%= current_user.liked_tweets.include?(tweet) ? 'text-[#d65959]' : '' %>"><%= tweet.likes_counter %></span>
+              <% end %>
+            <% end %>
+            <%= link_to tweet_path(tweet), data: { turbo: false, ignore_click: true }, class: "break-all flex items-center justify-center m-0 group-hover:text-[#5dc172]" do %>
+              <span class="mr-[10px] w-[19px] h-[19px] flex justify-center items-center hover:text-black <%= current_user.viewed_tweets.include?(tweet) ? 'text-black' : '' %>">
+                <%= render_svg "icons/view", size:"100%", styles: "fill-current object-cover object-contain", title: "like" %>
+              </span><span><%= tweet.views_counter %></span>
+            <% end %>
+            <% if !current_user.bookmarked_tweets.include?(tweet) %>
+              <%= link_to tweet_bookmarks_path(tweet), data: { turbo_method: :post, ignore_click: true }, class: "break-all flex items-center justify-center m-0 group-hover:text-[#5dc172]" do %>
+                <span class="mr-[10px] w-[19px] h-[19px] flex justify-center items-center hover:text-[#1d9bf0] <%= current_user.bookmarked_tweets.include?(tweet) ? 'text-[#5db9ff]' : '' %>">
+                  <%= render_svg "icons/bookmark", size:"100%", styles: "fill-current object-cover object-contain", title: "save" %>
+                </span>
+              <% end %>
+            <% else %>
+              <%= link_to tweet_bookmark_path(tweet, tweet.bookmarks.find_by(user: current_user)), data: { turbo_method: :delete, ignore_click: true }, class:"break-all flex items-center justify-center m-0 group-hover:text-[#5db9ff]" do %>
+                <span class="mr-[10px] w-[19px] h-[19px] flex justify-center text-[#1d9bf0] items-center hover:text-[#1d9bf0]">
+                  <%= render_svg "icons/bookmark-filled", size:"100%", styles: "fill-current object-cover object-contain", title: "save" %>
+                </span>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

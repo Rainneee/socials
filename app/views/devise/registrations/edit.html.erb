@@ -1,0 +1,54 @@
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <div class="p-0 lg:max-w-[70%] md:max-w-[85%]">
+    <% if controller_name != 'sessions' %>
+      <div class="mb-3 field">
+        <%= f.label :name, "Name", class:"" %>
+        <%= f.text_field :name, class:"w-full rounded-md focus:text-blue" %>
+      </div>
+
+      <div class="mb-3 field">
+        <%= f.label :user_name %>
+        <%= f.text_field :user_name, class:"w-full rounded-md focus:text-blue" %>
+      </div>
+
+      <div class="mb-3 field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"w-full rounded-md focus:text-blue" %>
+      </div>
+
+      <div class="mb-3 field">
+        <%= f.label :password %>
+        <%= f.password_field :password, autocomplete: "new-password", class:"w-full rounded-md focus:text-blue" %>
+      </div>
+
+      <div class="mb-3 field">
+        <%= f.label :password_confirmation %><br />
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"w-full rounded-md focus:text-blue" %>
+      </div>
+
+      <div class="field">
+        <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+        <%= f.password_field :current_password, autocomplete: "current-password", class:"w-full rounded-md focus:text-blue" %>
+      </div>
+    <% end %>
+
+    <div class="dropzone dropzone-default dz-clickable" data-controller="dropzone" data-dropzone-accepted-files="image/*" data-dropzone-max-files="1" data-upload-multiple="false">
+      <%= f.file_field :avatar, multiple: false, direct_upload: true, data: { dropzone_target: 'input' }, class: "input" %>
+      <div class="dropzone-msg dz-message needsclick flex flex-col items-center justify-center">
+        <%= render_svg "upload", styles: "fill-current text-gray-700 hover:text-gray-800"%>
+        <p class="text-xs text-center mt-[10px] mb-4">
+        <span class="text-xs text-center text-[#ed5e5e]">Click to upload</span>
+        <span class="text-xs text-center text-[#637381]">or drag and drop</span>
+        </p>
+        <p class="text-xs text-center text-[#637381] mb-[24px]">
+          SVG, PNG, JPG or GIF
+        </p>
+      </div>
+    </div>
+    <div class="mb-3 action">
+      <div class="mb-14">
+        <%= f.submit "Update", class:"block w-full text-center text-blue-500 font-bold py-2 rounded-full border border-gray-300 bg-transparent cursor-pointer hover:bg-blue-100" %>
+      </div>
+    </div>
+  </div>
+<% end %>

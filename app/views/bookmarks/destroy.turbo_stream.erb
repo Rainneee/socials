@@ -1,0 +1,13 @@
+<% if previous_controller_name == "tweets" && previous_action_name == "show" && @tweet.reply_tweets.any? %>
+  <%= turbo_stream.replace "show_stats" do %>
+    <%= render partial: 'tweets/show_actions', locals: {tweet: @tweet} %>
+  <% end %>
+<% elsif previous_controller_name == "bookmarks" && previous_action_name == "index" %>
+  <%= turbo_stream.remove dom_id(@tweet) do %>
+    <%= render partial: 'tweets/tweets', locals: {tweet: @tweet} %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace dom_id(@tweet) do %>
+    <%= render partial: 'tweets/tweets', locals: {tweet: @tweet} %>
+  <% end %>
+<% end %>

@@ -1,0 +1,50 @@
+<section class="sticky top-0 z-20 bg-white bg-opacity-95 flex flex-row items-center border-b border-gray-300 shadow-sm p-2">
+  <%= link_to :back, class: "w-[50px] h-[50px] flex justify-center items-center relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+    <span class="w-[20px] h-[20px] flex justify-center items-center">
+      <%= render_svg "icons/left", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+    </span>
+  <% end %>
+  <p class="ml-2 text-lg font-bold">Post<p>
+</section>
+<section>
+  <div class="p-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 focus:bg-gray-100 shadow-sm">
+    <div class="flex flex-row">
+      <% if @current_tweet&.user&.avatar&.attached? %>
+        <div class="max-h-[50px] max-w-[50px] min-w-[40px] min-h-[40px] w-full rounded-full mr-2 flex items-center justify-center">
+          <%= image_tag @current_tweet.user&.avatar, class: "h-full w-full rounded-full object-cover object-center" %>
+        </div>
+      <% else %>
+        <% unique_letters = [@current_tweet&.user&.first_name, @current_tweet&.user&.last_name] %>
+        <% random_bg_color = deterministic_choice(unique_letters) %>
+        <div class="max-h-[50px] max-w-[50px] min-w-[40px] min-h-[40px] w-full rounded-full mr-2 flex items-center justify-center" style="background-color: <%= random_bg_color %>;">
+          <p class="font-medium text-[13px] text-white">
+            <%= @current_tweet&.user&.first_name&.to_s[0]&.capitalize if @current_tweet&.user&.first_name.present? %>
+            <%= @current_tweet&.user&.last_name&.to_s[0]&.capitalize if @current_tweet&.user&.last_name.present? %>
+          </p>
+        </div>
+      <% end %>
+      <div class="flex-1">
+        <p class="m-0 font-bold"><%= @current_tweet&.user&.name %></p>
+        <p class="text-gray-500 text-sm">
+          <%= "@#{@current_tweet&.user&.user_name}" if @current_tweet&.user&.user_name&.present? %>
+        </p>
+      </div>
+    </div>
+    <div>
+      <p class="break-all mb-4 mt-6 text-2xl"><%= @current_tweet&.body %></p>
+      <p class="text-gray-500 text-sm mb-4">
+      <span><%= "#{@current_tweet.created_at.strftime('%I:%M %p')} · #{@current_tweet.created_at.strftime('%b %d, %Y')} · " %></span>
+      <span class="font-bold mr-1"><%= @current_tweet&.views_counter %></span><span>Views</span></p>
+      <div class="pt-4 border-t border-gray-300">
+        <%= render partial: 'tweets/show_actions', locals: { tweet: @current_tweet } %>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="pt-5 border-b border-gray-300">
+  <p class="ml-[78px] mb-2"><span class="mr-1">Replying to</span><span class="text-[#1D9BF0] underline"><%= "@#{@current_tweet&.user&.user_name}" %><span>
+  <%= render partial: 'tweets/form', locals: {tweet: Tweet.new(parent_id: @current_tweet.id), placeholder: "Post your reply", button_name: "Reply", form_submit_path: tweet_replies_path(@current_tweet), is_turbo: true} %>
+</div>
+<div id="reply_tweets">
+  <%= render partial: 'tweets/tweets', collection: @reply_tweets, as: :tweet %>
+</div>

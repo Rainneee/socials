@@ -1,0 +1,146 @@
+<section class="h-full sticky top-0 p-5 border-x flex flex-col justify-between border-gray-300">
+  <nav>
+    <div class="navbar-logo flex flex-col items-center mb-6 lg:items-start">
+      <%= link_to root_path do %>
+        <%= image_tag asset_path("twitterol2.png"), class: "max-w-[50px]" %>
+      <% end %>
+    </div>
+    <div class="navbar-container hidden lg:block mb-3">
+      <div class="relative home text-lg font-semibold p-3 rounded-full hover:bg-gray-100 focus:bg-gray-400">
+        <%= link_to root_path, class: "flex flex-row items-center" do %>
+          <span class="mr-[10px] w-[30px] h-[30px] flex justify-center items-center">
+            <%= render_svg "icons/home", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+          </span>
+          Home
+        <% end %>
+      </div>
+    </div>
+    <div class="navbar-container block lg:hidden mb-3">
+      <%= link_to root_path, class: "w-[50px] h-[50px] flex justify-center items-center mx-auto relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+        <span class="w-[30px] h-[30px] flex justify-center items-center">
+          <%= render_svg "icons/home", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+        </span>
+      <% end %>
+    </div>
+    <!------- To Do: Search Feature
+    <% if false %>
+    <div class="navbar-container hidden lg:block mb-3">
+      <div class="relative home text-lg font-semibold p-3 rounded-full hover:bg-gray-100 focus:bg-gray-400">
+        <%= link_to root_path, class: "flex flex-row items-center" do %>
+          <span class="mr-[10px] w-[30px] h-[30px] flex justify-center items-center">
+            <%= render_svg "icons/search", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+          </span>
+          Search
+        <% end %>
+      </div>
+    </div>
+    <div class="navbar-container block lg:hidden mb-3">
+      <%= link_to root_path, class: "w-[50px] h-[50px] flex justify-center items-center mx-auto relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+        <span class="w-[30px] h-[30px] flex justify-center items-center">
+          <%= render_svg "icons/search", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+        </span>
+      <% end %>
+    </div>
+    <% end %>
+    --------->
+    <div class="navbar-container hidden lg:block mb-3">
+      <div class="relative home text-lg font-semibold p-3 rounded-full hover:bg-gray-100 focus:bg-gray-400">
+        <%= link_to likes_path, class: "flex flex-row items-center" do %>
+          <span class="mr-[10px] w-[30px] h-[30px] flex justify-center items-center">
+            <%= render_svg "icons/like", size:"100%", styles: "fill-current object-cover object-contain", title: "Bookmarks" %>
+          </span>
+          Likes
+        <% end %>
+      </div>
+    </div>
+    <div class="navbar-container block lg:hidden mb-3">
+      <%= link_to likes_path, class: "w-[50px] h-[50px] flex justify-center items-center mx-auto relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+        <span class="w-[30px] h-[30px] flex justify-center items-center">
+          <%= render_svg "icons/like", size:"100%", styles: "fill-current object-cover object-contain", title: "Bookmarks" %>
+        </span>
+      <% end %>
+    </div>
+    <div class="navbar-container hidden lg:block mb-3">
+      <div class="relative home text-lg font-semibold p-3 rounded-full hover:bg-gray-100 focus:bg-gray-400">
+        <%= link_to retweets_path, class: "flex flex-row items-center" do %>
+          <span class="mr-[10px] w-[30px] h-[30px] flex justify-center items-center">
+            <%= render_svg "icons/retweet", size:"100%", styles: "fill-current object-cover object-contain", title: "Bookmarks" %>
+          </span>
+          Retweets
+        <% end %>
+      </div>
+    </div>
+    <div class="navbar-container block lg:hidden mb-3">
+      <%= link_to retweets_path, class: "w-[50px] h-[50px] flex justify-center items-center mx-auto relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+        <span class="w-[30px] h-[30px] flex justify-center items-center">
+          <%= render_svg "icons/retweet", size:"100%", styles: "fill-current object-cover object-contain", title: "Bookmarks" %>
+        </span>
+      <% end %>
+    </div>
+    <div class="navbar-container hidden lg:block mb-3">
+      <div class="relative home text-lg font-semibold p-3 rounded-full hover:bg-gray-100 focus:bg-gray-400">
+        <%= link_to bookmarks_path, class: "flex flex-row items-center" do %>
+          <span class="mr-[10px] w-[30px] h-[30px] flex justify-center items-center">
+            <%= render_svg "icons/bookmark", size:"100%", styles: "fill-current object-cover object-contain", title: "Bookmarks" %>
+          </span>
+          Bookmarks
+        <% end %>
+      </div>
+    </div>
+    <div class="navbar-container block lg:hidden mb-3">
+      <%= link_to bookmarks_path, class: "w-[50px] h-[50px] flex justify-center items-center mx-auto relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+        <span class="w-[30px] h-[30px] flex justify-center items-center">
+          <%= render_svg "icons/bookmark", size:"100%", styles: "fill-current object-cover object-contain", title: "Bookmarks" %>
+        </span>
+      <% end %>
+    </div>
+    <div class="navbar-container hidden lg:block mb-3">
+      <div class="relative home text-lg font-semibold p-3 rounded-full hover:bg-gray-100 focus:bg-gray-400">
+        <%= link_to profile_path, class: "flex flex-row items-center" do %>
+          <span class="mr-[10px] w-[30px] h-[30px] flex justify-center items-center text-black">
+            <%= render_svg "icons/person", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+          </span>
+          Profile
+        <% end %>
+      </div>
+    </div>
+    <div class="navbar-container block lg:hidden mb-3">
+      <%= link_to profile_path, class: "w-[50px] h-[50px] flex justify-center items-center mx-auto relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+        <span class="w-[30px] h-[30px] flex justify-center items-center">
+          <%= render_svg "icons/person", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+        </span>
+      <% end %>
+    </div>
+    <div class="navbar-container hidden lg:block mb-3 cursor-pointer" data-action="click->modalpop#toggleModal" data-modal-type="posting">
+      <div class="relative home text-lg font-semibold flex h-[50px] items-center justify-center text-white rounded-full bg-[#1d9bf0] cursor-pointer hover:bg-[#1A8CD8]">
+        Post
+      </div>
+    </div>
+    <div class="navbar-container block lg:hidden mb-3 cursor-pointer" data-action="click->modalpop#toggleModal" data-modal-type="posting">
+      <div class="flex items-center w-[50px] h-[50px] justify-center mx-auto text-white rounded-full bg-[#1d9bf0] cursor-pointer hover:bg-[#1A8CD8]">
+        <span class="w-[30px] h-[30px] flex items-center justify-center text-white">
+          <%= render_svg "icons/post", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+        </span>
+      </div>
+    </div>
+  </nav>
+  <nav class="Logout">
+    <div class="navbar-container hidden lg:block mb-3">
+      <div class="relative home text-lg font-semibold p-3 rounded-full hover:bg-gray-100 focus:bg-gray-400">
+        <%= link_to destroy_user_session_path, data: {"turbo-method": :delete}, class: "flex flex-row items-center" do %>
+          <span class="mr-[10px] w-[30px] h-[30px] flex justify-center items-center">
+            <%= render_svg "icons/logout", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+          </span>
+          Logout
+        <% end %>
+      </div>
+    </div>
+    <div class="navbar-container block lg:hidden mb-3">
+      <%= link_to destroy_user_session_path, data: {"turbo-method": :delete}, class: "w-[50px] h-[50px] flex justify-center items-center mx-auto relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+        <span class="w-[30px] h-[30px] flex justify-center items-center">
+          <%= render_svg "icons/logout", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+        </span>
+      <% end %>
+    </div>
+  </nav>
+</section>

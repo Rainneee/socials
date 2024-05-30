@@ -1,0 +1,21 @@
+<section class="sticky top-0 z-20 bg-white h-[66.89px] bg-opacity-95 flex flex-row items-center justify-center border-b border-gray-300 shadow-sm p-2">
+  <!-------<div class="for-you w-[50%] h-[54.89px] button py-3 px-5 flex items-center justify-center text-center text-lg font-bold">
+  </div>
+  <div class="following w-[50%] h-[54.89px] button py-3 px-5 flex items-center justify-center text-lg font-bold">
+  </div>------->
+  <h3 class="text-xl font-semibold text-gray-800 mb-4">TO DO: Following</h3>
+</section>
+<section class="z-10">
+  <div class="pt-5 border-b border-gray-300">
+    <%= render partial: 'tweets/form', locals: {tweet: Tweet.new, placeholder: "What is Happening?!", button_name: "Post", form_submit_path: tweets_path, is_turbo: true} %>
+  </div>
+  <div class="">
+    <ul>
+      <% @tweets.each do |tweet| %>
+        <div id="tweets">
+          <%= render partial: 'tweets/tweets', locals: {tweet: tweet} %>
+        </div>
+      <% end %>
+    </ul>
+  </div>
+</section>

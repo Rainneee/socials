@@ -1,0 +1,61 @@
+/* Variables */
+:root {
+  --base-spacing: 1.5em;
+}
+
+/* Flashes */
+.flash-alert {
+  background-color: #fff6bf;
+  color: #a19f08;
+  display: block;
+  margin-bottom: calc(var(--base-spacing) / 2);
+  padding: calc(var(--base-spacing) / 2);
+  text-align: center;
+}
+
+.flash-error {
+  background-color: #fbe3e4;
+  color: #b00a0a;
+  display: block;
+  margin-bottom: calc(var(--base-spacing) / 2);
+  padding: calc(var(--base-spacing) / 2);
+  text-align: center;
+}
+
+.flash-notice {
+  background-color: #e5edf8;
+  color: #3a3f9d;
+  display: block;
+  margin-bottom: calc(var(--base-spacing) / 2);
+  padding: calc(var(--base-spacing) / 2);
+  text-align: center;
+}
+
+.flash-success {
+  background-color: #e6efc2;
+  color: #5a720d;
+  display: block;
+  margin-bottom: calc(var(--base-spacing) / 2);
+  padding: calc(var(--base-spacing) / 2);
+  text-align: center;
+}
+
+/* Flashes - Links */
+.flash-alert a,
+.flash-error a,
+.flash-notice a,
+.flash-success a {
+  color: #585800;
+  text-decoration: underline;
+}
+
+.flash-alert a:focus,
+.flash-alert a:hover,
+.flash-error a:focus,
+.flash-error a:hover,
+.flash-notice a:focus,
+.flash-notice a:hover,
+.flash-success a:focus,
+.flash-success a:hover {
+  color: #1c1c00;
+}

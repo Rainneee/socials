@@ -1,0 +1,35 @@
+<section>
+  <div class="p-4 border-b border-gray-300 cursor-pointer hover:bg-gray-200 focus:bg-gray-100 shadow-sm">
+    <div class="flex flex-row">
+      <% if tweet&.user&.avatar&.attached? %>
+        <div class="max-h-[50px] max-w-[50px] min-w-[40px] min-h-[40px] w-full rounded-full mr-2 flex items-center justify-center">
+          <%= image_tag tweet.user&.avatar, class: "h-full w-full rounded-full object-cover object-center" %>
+        </div>
+      <% else %>
+        <% unique_letters = [tweet&.user&.first_name, tweet&.user&.last_name] %>
+        <% random_bg_color = deterministic_choice(unique_letters) %>
+        <div class="max-h-[50px] max-w-[50px] min-w-[40px] min-h-[40px] w-full rounded-full mr-2 flex items-center justify-center" style="background-color: <%= random_bg_color %>;">
+          <p class="font-medium text-[13px] text-white">
+            <%= tweet&.user&.first_name&.to_s[0]&.capitalize if tweet&.user&.first_name.present? %>
+            <%= tweet&.user&.last_name&.to_s[0]&.capitalize if tweet&.user&.last_name.present? %>
+          </p>
+        </div>
+      <% end %>
+      <div class="flex-1">
+        <p class="m-0 font-bold"><%= tweet&.user&.name %></p>
+        <p class="text-gray-500 text-sm">
+          <%= "@#{tweet&.user&.user_name}" if tweet&.user&.user_name&.present? %>
+        </p>
+      </div>
+    </div>
+    <div>
+      <p class="break-all mb-4 mt-6 text-2xl"><%= tweet&.body %></p>
+      <p class="text-gray-500 text-sm mb-4">
+      <span><%= "#{tweet.created_at.strftime('%I:%M %p')} · #{tweet.created_at.strftime('%b %d, %Y')} · " %></span>
+      <span class="font-bold mr-1"><%= tweet&.views_counter %></span><span>Views</span></p>
+      <div class="pt-4 border-t border-gray-300">
+        <%= render partial: 'tweets/show_actions', locals: { tweet: tweet } %>
+      </div>
+    </div>
+  </div>
+</section>

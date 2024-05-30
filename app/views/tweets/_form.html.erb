@@ -1,0 +1,23 @@
+<%= form_with model: tweet, url: form_submit_path, method: :post, local: true, data: { turbo: is_turbo, controller: "clear-form" } do |f| %>
+  <div class="flex flex-row px-5 pb-3">
+    <% if current_user&.avatar&.attached? %>
+      <div class="max-h-[50px] max-w-[50px] min-w-[40px] min-h-[40px] w-full rounded-full mr-2 flex items-center justify-center">
+        <%= image_tag current_user&.avatar, class: "h-full w-full rounded-full object-cover object-center" %>
+      </div>
+    <% else %>
+      <% unique_letters = [current_user&.first_name, current_user&.last_name] %>
+      <% random_bg_color = deterministic_choice(unique_letters) %>
+      <div class="max-h-[50px] max-w-[50px] min-w-[40px] min-h-[40px] w-full rounded-full mr-2 flex items-center justify-center" style="background-color: <%= random_bg_color %>;">
+        <p class="font-medium text-[13px] text-white">
+        <%= current_user.first_name.to_s[0]&.capitalize %><%= current_user.last_name.to_s[0]&.capitalize %>
+        </p>
+      </div>
+    <% end %>
+    <div class="flex-1">
+      <%= f.text_area :body, class:"w-full min-h-[100px] border-0 p-0 mb-1 mt-2 focus:outline-none focus:ring-0 focus:shadow-none text-lg border-b border-gray-300", placeholder:placeholder, required: true, data: { controller: "autosize" } %>
+      <div class="flex justify-end">
+        <%= f.submit button_name, class:"text-center text-white font-bold py-2 px-6 rounded-full bg-[#1d9bf0] cursor-pointer hover:bg-[#1A8CD8]" %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,67 @@
+<section class="sticky top-0 z-20 bg-white bg-opacity-95 flex flex-row items-center border-b border-gray-300 shadow-sm p-2">
+  <%= link_to :back, class: "w-[50px] h-[50px] flex justify-center items-center relative home rounded-full hover:bg-gray-100 focus:bg-gray-400" do %>
+    <span class="w-[20px] h-[20px] flex justify-center items-center">
+      <%= render_svg "icons/left", size:"100%", styles: "fill-current object-cover object-contain", title: "Back" %>
+    </span>
+  <% end %>
+  <div class="flex flex-col ml-2">
+    <p class="text-lg font-bold"><%= current_user&.user_name %><p>
+    <p class="text-gray-500 text-sm"><%= "#{current_user&.tweets&.size} posts" %></p>
+  </div>
+</section>
+<section class="mt-[50px] px-5 pb-5 border-b border-gray-300 shadow-sm">
+  <div class="flex flex-col sm:flex-row items-center justify-normal sm:justify-between">
+    <% if current_user&.avatar&.attached? %>
+      <div class="h-[50px] w-[50px] min-w-[50px] min-h-[50px] md:w-[90px] md:h-[90px] lg:w-[134px] lg:h-[134px] ml-1 mb-4 rounded-full mr-2 flex items-center justify-center">
+        <%= image_tag current_user&.avatar, class: "h-full w-full rounded-full object-cover object-center" %>
+      </div>
+    <% else %>
+      <% unique_letters = [current_user&.first_name, current_user&.last_name] %>
+      <% random_bg_color = deterministic_choice(unique_letters) %>
+      <div class="h-[50px] w-[50px] min-w-[50px] min-h-[50px] md:w-[90px] md:h-[90px] lg:w-[134px] lg:h-[134px] ml-1 mb-4 rounded-full mr-2 flex items-center justify-center" style="background-color: <%= random_bg_color %>;">
+        <p class="font-medium text-lg md:text-2xl lg:text-4xl text-white">
+        <%= current_user.first_name.to_s[0]&.capitalize %><%= current_user.last_name.to_s[0]&.capitalize %>
+        </p>
+      </div>
+    <% end %>
+    <div class="flex justify-end cursor-pointer rounded-full py-3 px-5 border border-gray-300" data-action="click->modalpop#toggleModal" data-modal-type="profile-update">
+      Edit Profile
+    </div>
+  </div>
+  <div class="name mb-4">
+    <p class="text-xl font-bold"><%= current_user.name %></p>
+    <p class="text-[15px]"><%="@#{current_user.user_name}"%>
+  </div>
+  <% if !current_user.bio.nil? %>
+    <div class="mb-3">
+      <%= current_user.bio %>
+    </div>
+  <% end %>
+  <div class="flex flex-row gap-5 mb-3">
+    <% if !current_user.birthdate.nil? %>
+      <div class="flex flex-row items-center gap-1">
+        <span class="w-[20px] h-[20px] flex justify-center items-center text-black">
+          <%= render_svg "icons/birthdate", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+        </span>
+        <span><%= current_user.birthdate.strftime("%B %-d, %Y") %></span>
+      </div>
+    <% end %>
+    <div class="flex flex-row items-center gap-1">
+      <span class="w-[20px] h-[20px] flex justify-center items-center text-black">
+        <%= render_svg "icons/join", size:"100%", styles: "fill-current object-cover object-contain", title: "Home" %>
+      </span>
+      <span><%="Join #{current_user.created_at.strftime("%B %Y")}"%></span>
+    </div>
+  </div>
+  <div class="flex flex-row gap-5">
+    <p><span class="font-semibold mr-1">14</span><span>Following</span></p>
+    <p><span class="font-semibold mr-1">35</span><span>Followers</span></p>
+  </div>
+  <div class="flex flex-row justify-between">
+  </div>
+</section>
+<section>
+  <div id="tweets">
+    <%= render partial: 'tweets/tweets', collection: current_user&.tweets, as: :tweet %>
+  </div>
+</section>
