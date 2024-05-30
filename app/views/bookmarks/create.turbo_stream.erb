@@ -1,6 +1,6 @@
-<% if previous_controller_name == "tweets" && previous_action_name == "show" && @tweet.reply_tweets.any? %>
+<% if params[:source] == "twitter/show" %>
   <%= turbo_stream.replace "show_stats" do %>
-    <%= render partial: 'tweets/show_actions', locals: {tweet: @tweet} %>
+    <%= render partial: 'tweets/show_actions', locals: {tweet: @tweet, source: "twitter/show" } %>
   <% end %>
 <% else %>
   <%= turbo_stream.replace dom_id(@tweet) do %>
