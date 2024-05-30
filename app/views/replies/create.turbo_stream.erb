@@ -3,5 +3,5 @@
 <% end %>
 
 <%= turbo_stream.replace dom_id(@tweet.parent_tweet) do %>
-  <%= render partial: 'tweets/show_actions', locals: {tweet: @tweet.parent_tweet} %>
+  <%= render partial: 'tweets/show_actions', locals: {tweet: @tweet.parent_tweet, source: "twitter/show"} %>
 <% end %>

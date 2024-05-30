@@ -36,7 +36,7 @@
       <span><%= "#{@current_tweet.created_at.strftime('%I:%M %p')} · #{@current_tweet.created_at.strftime('%b %d, %Y')} · " %></span>
       <span class="font-bold mr-1"><%= @current_tweet&.views_counter %></span><span>Views</span></p>
       <div class="pt-4 border-t border-gray-300">
-        <%= render partial: 'tweets/show_actions', locals: { tweet: @current_tweet } %>
+        <%= render partial: 'tweets/show_actions', locals: { tweet: @current_tweet, source: "twitter/show" } %>
       </div>
     </div>
   </div>
